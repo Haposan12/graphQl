@@ -7,29 +7,21 @@ import (
 	"github.com/graphql-go/graphql"
 	"github.com/go-chi/chi/middleware"
 	"graphQL/gql"
-	"graphQL/postgres"
 	"graphQL/server"
 	"log"
 	"net/http"
 )
 
 func main()  {
-	router, db := Iniatilize()
-	defer db.Close()
+	router := Iniatilize()
 
 	log.Fatal(http.ListenAndServe(":4000", router))
 }
 
-func Iniatilize() (*chi.Mux, *postgres.DB)  {
+func Iniatilize() (*chi.Mux)  {
 	router := chi.NewRouter()
 
-	db, err := postgres.New(postgres.ConnString("localhost", 5432, "postgres", "postgres", "coba"),)
-	if err != nil{
-		fmt.Println("masuk")
-		log.Fatal(err)
-	}
-
-	rootQuery := gql.NewRoot(db)
+	rootQuery := gql.NewRoot()
 	sc, err := graphql.NewSchema(graphql.SchemaConfig{Query:rootQuery.Query})
 	if err != nil{
 		fmt.Println("error creating schema: ",err)
@@ -47,5 +39,5 @@ func Iniatilize() (*chi.Mux, *postgres.DB)  {
 
 	router.Get("/graphql", s.GraphQl())
 
-	return router, db
+	return router
 }

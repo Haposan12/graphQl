@@ -2,12 +2,8 @@ package gql
 
 import (
 	"github.com/graphql-go/graphql"
-	"graphQL/postgres"
+	programProvider "graphQL/repository"
 )
-
-type Resolver struct {
-	db *postgres.DB
-}
 
 // constanta untuk sort
 const (
@@ -17,7 +13,7 @@ const (
 	Sort4 = "program_name desc"
 )
 
-func (r *Resolver) SpecialProgramResolver(p graphql.ResolveParams)(interface{}, error)  {
+func SpecialProgramResolver(p graphql.ResolveParams)(interface{}, error)  {
 	page := p.Args["page"].(int)
 	size := p.Args["size"].(int)
 	sort := p.Args["sort"].(int)
@@ -41,15 +37,18 @@ func (r *Resolver) SpecialProgramResolver(p graphql.ResolveParams)(interface{}, 
 
 	//cek jika id nya gak 0
 	if id != 0{
-		result := r.db.GetSpecialProgramById(id)
-		// manipulate to merchant name
-		result = r.db.GetMerchantName(result)
+		result, err := programProvider.GetSpecialProgramById(id)
+		//fmt.Println(result)
+		if err != nil{
+			return result, err
+		}
 		return result, nil
 	}
 
 	//hasil jika tidak ada id
-	programs := r.db.GetSpecialProgram(page, size, categoryID, sortType)
-	//manipulate merchant name
-	programs = r.db.GetMerchantName(programs)
+	programs, err := programProvider.GetSpecialProgram(page, size, categoryID, sortType)
+	if err != nil{
+		return programs, err
+	}
 	return programs, nil
 }

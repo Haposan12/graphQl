@@ -1,18 +1,14 @@
 package gql
 
 import (
-	"fmt"
 	"github.com/graphql-go/graphql"
-	"graphQL/postgres"
 )
 
 type Root struct {
 	Query 	*graphql.Object
 }
 
-func NewRoot(db *postgres.DB) *Root  {
-	resolver := Resolver{db:db}
-
+func NewRoot() *Root  {
 	root := Root{
 		Query: graphql.NewObject(
 			graphql.ObjectConfig{
@@ -43,11 +39,10 @@ func NewRoot(db *postgres.DB) *Root  {
 							},
 
 						},
-						Resolve: resolver.SpecialProgramResolver,
+						Resolve: SpecialProgramResolver,
 					},
 				},
 			}),
 	}
-	fmt.Println(root)
 	return &root
 }

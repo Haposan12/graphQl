@@ -11,7 +11,7 @@ type Program struct {
 	Active     			bool
 	IsDeleted  			bool
 	Deleted    			*time.Time
-	Deleted_by 			string
+	DeletedBy 			string
 	ProgramName 		string
 	ProgramImage 		string
 	ProgramStartDate 	time.Time
@@ -20,12 +20,12 @@ type Program struct {
 	Card 				string
 	OutletID			int
 	MerchantId			int
-	MerchantName 		string
+	MerchantName 		string  `json:"merchantname"`
 	CategoryId			int
 	Benefit				string
 	TermsAndCondition	string
 	Tier 				string
-	RedeemRules			string
+	RedemRules			string
 	RewardTarget		float64
 	QRCodeId			string
 }

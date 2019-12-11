@@ -21,7 +21,7 @@ var Program = graphql.NewObject(
 			"programenddate":&graphql.Field{Type:graphql.DateTime},
 			"programdescription":&graphql.Field{Type:graphql.String},
 			"card":&graphql.Field{Type:graphql.String},
-			"ouletid":&graphql.Field{Type:graphql.Int},
+			"outletid":&graphql.Field{Type:graphql.Int},
 			"merchantname":&graphql.Field{Type:graphql.String},
 			"categoryid":&graphql.Field{Type:graphql.Int},
 			"benefit":&graphql.Field{Type:graphql.String},
